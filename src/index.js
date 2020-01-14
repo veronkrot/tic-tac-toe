@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import {forInStatement} from "@babel/types";
 
 function Square(props) {
     return (
@@ -58,7 +59,7 @@ class Game extends React.Component {
     }
 
     handleClick(i) {
-        const history = this.state.history.slice(0, this.state.stepNumber +1);
+        const history = this.state.history.slice(0, this.state.stepNumber + 1);
         const current = history[history.length - 1];
         const squares = current.squares.slice();
         if (calculateWinner(squares) || squares[i]) {
@@ -81,6 +82,15 @@ class Game extends React.Component {
         });
     }
 
+    onChangeColor(e) {
+        const selectedStep = document.querySelector('.selected-step');
+        if (!!selectedStep) {
+            selectedStep.classList.toggle('selected-step');
+        }
+        e.target.classList.toggle('selected-step');
+    }
+
+
     render() {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
@@ -89,9 +99,13 @@ class Game extends React.Component {
         const moves = history.map((step, move) => {
             const desc = move ?
                 'Move on #' + move : 'To the beginning of the game';
+
             return (
-                <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}>{desc}
+                <li className="move" key={move}>
+                    <button onClick={(e) => {
+                        this.jumpTo(move);
+                        this.onChangeColor(e);
+                    }}>{desc}
                     </button>
                 </li>
             );

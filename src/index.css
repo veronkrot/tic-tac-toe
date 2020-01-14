@@ -45,6 +45,10 @@ ol, ul {
     flex-direction: row;
 }
 
+.selected-step {
+    background-color: #c8e0e3;
+}
+
 .game-info {
     margin-left: 20px;
 }
