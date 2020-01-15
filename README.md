@@ -1,5 +1,5 @@
 # tic-tac-toe 
-##Tutorial: Intro to React
+## Tutorial: Intro to React
 
 ### Cloning and Running the Application in local
 
