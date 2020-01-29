@@ -3,7 +3,19 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import {forInStatement} from "@babel/types";
 
-function Square(props) {
+const boardLoc = {
+    0: {x: 0, y: 0,},
+    1: {x: 0, y: 1,},
+    2: {x: 0, y: 2,},
+    3: {x: 1, y: 0,},
+    4: {x: 1, y: 1,},
+    5: {x: 1, y: 2,},
+    6: {x: 2, y: 0,},
+    7: {x: 2, y: 1,},
+    8: {x: 2, y: 2,}
+};
+
+const Square = (props) => {
     return (
         <button
             className="square"
@@ -11,36 +23,42 @@ function Square(props) {
             {props.value}
         </button>
     );
-}
+};
 
 class Board extends React.Component {
     renderSquare(i) {
         return (
             <Square
+                key={i}
                 value={this.props.squares[i]}
                 onClick={() => this.props.onClick(i)}
             />
         );
     }
 
+
+
     render() {
+        const renderBoard = () => {
+            let board = [];
+            let index = 0;
+            for (let i = 0; i < 3; i++) {
+                let squares = [];
+                for (let j = 0; j < 3; j++) {
+                    squares.push(this.renderSquare(index));
+                    index++;
+                    console.log(squares);
+                }
+                board.push(<div className="board-row" key={`row-${i}`}>
+                    {squares}
+                </div>)
+            }
+            return board;
+        };
+
         return (
             <div>
-                <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>
+                {renderBoard()}
             </div>
         );
     }
@@ -135,7 +153,7 @@ class Game extends React.Component {
     }
 }
 
-function calculateWinner(squares) {
+const calculateWinner = (squares) => {
     const lines = [
         [0, 1, 2],
         [3, 4, 5],
@@ -153,9 +171,7 @@ function calculateWinner(squares) {
         }
     }
     return null;
-}
-
-// ========================================
+};
 
 ReactDOM.render(
     <Game/>,
